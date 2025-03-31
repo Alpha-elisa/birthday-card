@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Birthday!</title>
+    <!-- 引入 Google Fonts 的 Dancing Script 字体 -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Dancing+Script&display=swap">
+    <style>
+        /* 设置背景为从粉红色到金色的径向渐变 */
+        body {
+            background: radial-gradient(circle, #ffb6c1, #ffd700);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            overflow: hidden;
+        }
+
+        /* 生日祝福语样式 */
+        h1 {
+            font-family: 'Dancing Script', cursive;
+            color: white;
+            font-size: 48px; /* 适中大小 */
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            animation: pulse 0.5s infinite alternate;
+            text-align: center;
+            margin-bottom: 10px;
+        }
+
+        /* 提示文字样式 */
+        #click-tip {
+            font-family: SimHei;
+            color: yellow;
+            font-size: 18px; /* 比生日祝福语小 */
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            animation: pulse 0.5s infinite alternate;
+            margin-bottom: 20px;
+        }
+
+        /* 文字缩放脉冲动画 */
+        @keyframes pulse {
+            from {
+                transform: scale(1);
+            }
+            to {
+                transform: scale(1.1);
+            }
+        }
+
+        /* 随机祝福语样式 */
+        #message {
+            font-family: YouYuan;
+            font-size: 24px;
+            margin: 20px 0;
+            text-align: center;
+        }
+
+        /* 图片样式 */
+        #image {
+            width: 300px;
+            height: auto;
+            display: block;
+            margin: 0 auto;
+        }
+
+        /* 飘落的 emoji 样式 */
+        .falling {
+            position: absolute;
+            top: -50px;
+            animation: fall linear infinite;
+        }
+
+        /* emoji 飘落动画 */
+        @keyframes fall {
+            to {
+                top: 100vh;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- 生日祝福语 -->
+    <h1>祝福卓婕大漂亮生日快乐！Happy Birthday!</h1>
+    <!-- 提示文字 -->
+    <div id="click-tip">点击我，刷新技能！</div>
+    <!-- 随机祝福语显示区域 -->
+    <div id="message">27 岁的你，宛如春日里盛开的花朵，美丽而充满活力。愿新的一岁，你能追逐梦想，收获幸福！</div>
+    <!-- 展示图片 -->
+    <img id="image" src="https://p9-flow-imagex-sign.byteimg.com/ocean-cloud-tos/image_generation/6a30c75a0b0b77cb595a1b3362796d3b_1741678103707880520.png~tplv-a9rns2rl98-image.png?rk3s=25bff839&x-expires=1773214103&x-signature=5jO6t3cI6T8Ksk9oeiKTkDnP%2BOY%3D" alt="Birthday Image">
+    <!-- 背景音乐音频标签 -->
+    <audio id="birthday-music" loop>
+        <source src="https://ny-sycdn.kuwo.cn/be3d45a945469b7e46dc183eeaed904b/67eab7e8/resource/n2/92/16/4269757760.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+
+    <script>
+        // 定义飘落的 emoji 数组
+        const emojis = ['🤑', '😆', '🧧', '💴', '🍰', '🥰', '🀄'];
+        // 定义适合 27 岁姑娘的随机祝福语数组
+        const messages = [
+            '27 岁，是青春的新起点。愿你在这一年，如灵动的小鹿，在生活的森林中探寻无尽的美好，事业顺遂，爱情甜蜜！',
+            '亲爱的卓婕，27 岁的你恰似夜空中璀璨的星辰。新的一岁，愿你的梦想如烟花般绚烂绽放，每一天都充满欢笑与惊喜。',
+            '27 岁的时光，是成长与蜕变的旅程。愿你怀揣勇气，追逐心中的光芒，在新的一岁里收获满满的智慧与成就。',
+            '在你 27 岁生日之际，愿快乐像音符般围绕着你，财富像雪花般纷纷向你飘来，生活像画卷般绚丽多彩，未来一片光明！',
+            '27 岁的你，是一颗闪耀的新星。愿这一年，你能在自己热爱的领域里发光发热，实现心中的每一个小目标，创造属于自己的辉煌。',
+            '步入 27 岁，愿你的生活充满阳光和温暖，每一个愿望都能实现，每一次努力都能得到回报，像春天的花朵一样绽放光彩。',
+            '27 岁，是成熟与魅力的象征。愿你在新的一岁里，继续保持乐观的心态，勇敢地面对生活的挑战，收获满满的幸福和成功。'
+        ];
+        // 获取随机祝福语显示区域的 DOM 元素
+        const messageElement = document.getElementById('message');
+        // 获取音频元素
+        const audio = document.getElementById('birthday-music');
+
+        // 点击屏幕更换祝福语并尝试播放音频
+        document.addEventListener('click', () => {
+            const randomIndex = Math.floor(Math.random() * messages.length);
+            messageElement.textContent = messages[randomIndex];
+            audio.play().catch(error => {
+                console.log('音频播放失败:', error);
+            });
+        });
+
+        // 创建飘落的 emoji 函数
+        function createFallingEmoji() {
+            const emoji = document.createElement('span');
+            emoji.classList.add('falling');
+            emoji.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+            emoji.style.left = Math.random() * window.innerWidth + 'px';
+            // 控制飘落速度，适中
+            emoji.style.animationDuration = Math.random() * 5 + 3 + 's'; 
+            document.body.appendChild(emoji);
+
+            setTimeout(() => {
+                document.body.removeChild(emoji);
+            }, 8000);
+        }
+
+        // 定时创建飘落的 emoji
+        setInterval(createFallingEmoji, 500);
+
+        // 鼠标移动时创建爱心 emoji 掉落效果
+        document.addEventListener('mousemove', (e) => {
+            const heart = document.createElement('span');
+            heart.classList.add('falling');
+            heart.textContent = '💖';
+            heart.style.left = e.clientX + 'px';
+            heart.style.top = e.clientY + 'px';
+            heart.style.animationDuration = Math.random() * 3 + 2 + 's';
+            document.body.appendChild(heart);
+
+            setTimeout(() => {
+                document.body.removeChild(heart);
+            }, 5000);
+        });
+    </script>
+</body>
+
+</html>    
