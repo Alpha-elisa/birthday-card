@@ -223,12 +223,16 @@
                 }, 100);
 
                 photoIndex++;
-                setTimeout(showNextPhoto, photoInterval);
-            } else {
-                const allPhotos = document.querySelectorAll('.photo');
-                allPhotos.forEach(photo => {
-                    photo.style.animation = 'rotate 2s ease-in-out infinite';
-                });
+                if (photoIndex === photoNames.length) {
+                    setTimeout(() => {
+                        const allPhotos = document.querySelectorAll('.photo');
+                        allPhotos.forEach(photo => {
+                            photo.style.animation = 'rotate 2s ease-in-out infinite';
+                        });
+                    }, 2000); // 等待最后一张照片显示完成
+                } else {
+                    setTimeout(showNextPhoto, photoInterval);
+                }
             }
         }
 
