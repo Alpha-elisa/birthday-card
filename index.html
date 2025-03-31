@@ -27,6 +27,7 @@
             animation: pulse 0.5s infinite alternate;
             text-align: center;
             margin-bottom: 10px;
+            z-index: 2;
         }
 
         #click-tip {
@@ -36,6 +37,7 @@
             text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
             animation: pulse 0.5s infinite alternate;
             margin-bottom: 20px;
+            z-index: 2;
         }
 
         @keyframes pulse {
@@ -53,6 +55,7 @@
             font-size: 24px;
             margin: 20px 0;
             text-align: center;
+            z-index: 2;
         }
 
         #image {
@@ -60,6 +63,7 @@
             height: auto;
             display: block;
             margin: 0 auto;
+            z-index: 2;
         }
 
        .falling {
@@ -74,14 +78,11 @@
             }
         }
 
-        /* 新增照片的样式和动画 */
-        #person-photo {
+       .photo {
             position: absolute;
-            left: 20px;
-            bottom: 20px;
-            width: 150px;
+            width: 100px;
             height: auto;
-            animation: fadeIn 2s ease-in-out forwards;
+            opacity: 0;
             z-index: 1;
         }
 
@@ -94,6 +95,18 @@
                 opacity: 1;
             }
         }
+
+        @keyframes rotate {
+            0% {
+                transform: rotate(-15deg);
+            }
+            50% {
+                transform: rotate(15deg);
+            }
+            100% {
+                transform: rotate(-15deg);
+            }
+        }
     </style>
 </head>
 
@@ -103,8 +116,6 @@
     <div id="message">27 岁的你，宛如春日里盛开的花朵，美丽而充满活力。愿新的一岁，你能追逐梦想，收获幸福！</div>
     <img id="image" src="https://p9-flow-imagex-sign.byteimg.com/ocean-cloud-tos/image_generation/6a30c75a0b0b77cb595a1b3362796d3b_1741678103707880520.png~tplv-a9rns2rl98-image.png?rk3s=25bff839&x-expires=1773214103&x-signature=5jO6t3cI6T8Ksk9oeiKTkDnP%2BOY%3D"
         alt="Birthday Image">
-    <!-- 添加照片标签 -->
-    <img id="person-photo" src="卓婕.jpg" alt="过生日的人">
     <audio id="birthday-music" loop>
         <source src="https://ny-sycdn.kuwo.cn/be3d45a945469b7e46dc183eeaed904b/67eab7e8/resource/n2/92/16/4269757760.mp3" type="audio/mpeg">
         Your browser does not support the audio element.
@@ -160,7 +171,66 @@
                 document.body.removeChild(heart);
             }, 5000);
         });
+
+        const photoNames = [
+            '卓婕.jpg', '卓婕2.jpg', '卓婕3.jpg', '卓婕4.jpg', '卓婕5.jpg',
+            '卓婕6.jpg', '卓婕7.jpg', '卓婕8.jpg', '卓婕9.jpg', '卓婕10.jpg'
+        ];
+        const photoInterval = 1000;
+        let photoIndex = 0;
+        const photoContainer = document.body;
+
+        function showNextPhoto() {
+            if (photoIndex < photoNames.length) {
+                const photo = document.createElement('img');
+                photo.src = photoNames[photoIndex];
+                photo.classList.add('photo');
+                photoContainer.appendChild(photo);
+
+                const windowWidth = window.innerWidth;
+                const windowHeight = window.innerHeight;
+                const photoWidth = 100;
+                const photoHeight = 100;
+
+                let left, top;
+                switch (photoIndex % 4) {
+                    case 0: // 左下角开始
+                        left = 20;
+                        top = windowHeight - photoHeight - 20;
+                        break;
+                    case 1: // 右下角
+                        left = windowWidth - photoWidth - 20;
+                        top = windowHeight - photoHeight - 20;
+                        break;
+                    case 2: // 右上角
+                        left = windowWidth - photoWidth - 20;
+                        top = 20;
+                        break;
+                    case 3: // 左上角
+                        left = 20;
+                        top = 20;
+                        break;
+                }
+
+                photo.style.left = left + 'px';
+                photo.style.top = top + 'px';
+
+                setTimeout(() => {
+                    photo.style.animation = 'fadeIn 2s ease-in-out forwards';
+                }, 100);
+
+                photoIndex++;
+                setTimeout(showNextPhoto, photoInterval);
+            } else {
+                const allPhotos = document.querySelectorAll('.photo');
+                allPhotos.forEach(photo => {
+                    photo.style.animation = 'rotate 2s ease-in-out infinite';
+                });
+            }
+        }
+
+        showNextPhoto();
     </script>
 </body>
 
-</html>
+</html>    
