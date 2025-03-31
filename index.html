@@ -79,7 +79,7 @@
 
        .photo {
             position: absolute;
-            width: 100px;
+            width: 150px; /* 修改宽度 */
             height: auto;
             opacity: 0;
             z-index: 1;
@@ -167,8 +167,8 @@
         let photoIndex = 0;
         const photoContainer = document.body;
         const usedPositions = [];
-        const photoWidth = 100;
-        const photoHeight = 100;
+        const photoWidth = 150; // 修改宽度
+        const photoHeight = 150; // 修改高度
 
         function isOverlapping(x, y) {
             for (let i = 0; i < usedPositions.length; i++) {
