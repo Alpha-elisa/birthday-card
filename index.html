@@ -44,7 +44,6 @@
             from {
                 transform: scale(1);
             }
-
             to {
                 transform: scale(1.1);
             }
@@ -90,7 +89,6 @@
             from {
                 opacity: 0;
             }
-
             to {
                 opacity: 1;
             }
@@ -179,6 +177,33 @@
         const photoInterval = 1000;
         let photoIndex = 0;
         const photoContainer = document.body;
+        const usedPositions = [];
+        const photoWidth = 100;
+        const photoHeight = 100;
+
+        function isOverlapping(x, y) {
+            for (let i = 0; i < usedPositions.length; i++) {
+                const [prevX, prevY] = usedPositions[i];
+                if (
+                    x < prevX + photoWidth &&
+                    x + photoWidth > prevX &&
+                    y < prevY + photoHeight &&
+                    y + photoHeight > prevY
+                ) {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        function getRandomPosition() {
+            let x, y;
+            do {
+                x = Math.floor(Math.random() * (window.innerWidth - photoWidth));
+                y = Math.floor(Math.random() * (window.innerHeight - photoHeight));
+            } while (isOverlapping(x, y));
+            return [x, y];
+        }
 
         function showNextPhoto() {
             if (photoIndex < photoNames.length) {
@@ -187,33 +212,11 @@
                 photo.classList.add('photo');
                 photoContainer.appendChild(photo);
 
-                const windowWidth = window.innerWidth;
-                const windowHeight = window.innerHeight;
-                const photoWidth = 100;
-                const photoHeight = 100;
+                const [x, y] = getRandomPosition();
+                usedPositions.push([x, y]);
 
-                let left, top;
-                switch (photoIndex % 4) {
-                    case 0: // 左下角开始
-                        left = 20;
-                        top = windowHeight - photoHeight - 20;
-                        break;
-                    case 1: // 右下角
-                        left = windowWidth - photoWidth - 20;
-                        top = windowHeight - photoHeight - 20;
-                        break;
-                    case 2: // 右上角
-                        left = windowWidth - photoWidth - 20;
-                        top = 20;
-                        break;
-                    case 3: // 左上角
-                        left = 20;
-                        top = 20;
-                        break;
-                }
-
-                photo.style.left = left + 'px';
-                photo.style.top = top + 'px';
+                photo.style.left = x + 'px';
+                photo.style.top = y + 'px';
 
                 setTimeout(() => {
                     photo.style.animation = 'fadeIn 2s ease-in-out forwards';
