@@ -93,18 +93,6 @@
                 opacity: 1;
             }
         }
-
-        @keyframes rotate {
-            0% {
-                transform: rotate(-15deg);
-            }
-            50% {
-                transform: rotate(15deg);
-            }
-            100% {
-                transform: rotate(-15deg);
-            }
-        }
     </style>
 </head>
 
@@ -175,6 +163,7 @@
             '卓婕6.jpg', '卓婕7.jpg', '卓婕8.jpg', '卓婕9.jpg', '卓婕10.jpg'
         ];
         const photoInterval = 1000;
+        const freezeTime = 3000;
         let photoIndex = 0;
         const photoContainer = document.body;
         const usedPositions = [];
@@ -227,11 +216,11 @@
                     setTimeout(() => {
                         const allPhotos = document.querySelectorAll('.photo');
                         allPhotos.forEach(photo => {
-                            photo.style.animation = 'rotate 2s ease-in-out infinite';
+                            photo.style.opacity = 1;
                         });
-                    }, 2000); // 等待最后一张照片显示完成
+                    }, freezeTime);
                 } else {
-                    setTimeout(showNextPhoto, photoInterval);
+                    setTimeout(showNextPhoto, photoInterval + freezeTime);
                 }
             }
         }
